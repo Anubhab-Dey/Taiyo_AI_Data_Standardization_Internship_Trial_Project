@@ -28,23 +28,26 @@ def clean_title(title):
     title = re.sub(r",.*", "", title)
 
     # Clean up trailing periods and extra spaces
-    title = re.sub(r'\\.?\s*$', '', title)
+    title = re.sub(r'\.\s*$', '', title)
 
     # Attempt to strip out common location patterns and trailing geographic details
     title = re.sub(r"-\s*[A-Za-z\s]*$", "", title)
 
     # Remove any remaining numeric prefixes or suffixes
-    title = re.sub(r"^\d+\s*|--\s*\d+", "", title)
+    title = re.sub(r"^\d+\s*|--\s*\d+$", "", title)
 
     # Remove any remaining references to quarters (Q1, Q2, etc.)
     title = re.sub(r"\bQ\d\b", "", title)
 
     # Removes trailing locations after a dash
+    title = re.sub(r"-\s*[A-Za-z\s]+$", "", title)
+
     # Clean up extra spaces and dashes leftover from removals
     title = re.sub(r"\s{2,}", " ", title)  # Collapse multiple spaces into one
     title = re.sub(
         r"\s*-\s*", " - ", title
     )  # Standardize spacing around dashes
+
     title = title.strip()
 
     return title
